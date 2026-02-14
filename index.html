@@ -1202,9 +1202,40 @@ function showToast(message, type="warn"){
   }, 2200);
 }
 function openConfirm(message, onOk){
-  if(confirm(message)){
-    onOk();
+  const overlay = document.getElementById("appModalOverlay");
+  const body    = document.getElementById("appModalBody");     // check: bestaat die id bij jou?
+  const btnOk   = document.getElementById("appModalOk");
+  const btnCan  = document.getElementById("appModalCancel");
+
+  if(!overlay || !btnOk || !btnCan) {
+    // fallback als iets ontbreekt
+    if(confirm(message)) onOk?.();
+    return;
   }
+
+  // tekst zetten (als body bestaat)
+  if(body) body.textContent = message;
+
+  // tonen
+  overlay.classList.add("show");
+
+  // cleanup + éénmalige handlers (BELANGRIJK: anders stapelen clicks op)
+  const close = () => {
+    overlay.classList.remove("show");
+    btnOk.removeEventListener("click", okHandler);
+    btnCan.removeEventListener("click", cancelHandler);
+    overlay.removeEventListener("click", overlayHandler);
+  };
+
+  const okHandler = () => { close(); onOk?.(); };
+  const cancelHandler = () => close();
+  const overlayHandler = (e) => {
+    if(e.target === overlay) close(); // klik buiten modal = annuleren
+  };
+
+  btnOk.addEventListener("click", okHandler);
+  btnCan.addEventListener("click", cancelHandler);
+  overlay.addEventListener("click", overlayHandler);
 }
 </script>
 
