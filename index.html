@@ -147,6 +147,10 @@
       font-size:16px;
       outline:none;
     }
+#mStart,
+#mEnd {
+ min-width: 0;
+}
     .status{
       text-align:center;
       margin:10px 0 0;
@@ -156,7 +160,7 @@
 
     .grid3{
       display:grid;
-      grid-template-columns: repeat(1, minmax(0,1fr));
+     grid-template-columns: repeat(3, 1fr);
       gap:12px;
       margin-top:14px;
     }
