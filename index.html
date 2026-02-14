@@ -1083,11 +1083,16 @@ if (fileImport) {
   }
   init();
 })();
+...
 </script>
+
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
+  navigator.serviceWorker.register('/shift-buddy/service-worker.js', {
+    scope: '/shift-buddy/'
+  });
 }
 </script>
+
 </body>
 </html>
